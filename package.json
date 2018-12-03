@@ -1,0 +1,48 @@
+{
+  "name": "luminave-fivetwelve",
+  "version": "0.0.1",
+  "description": "Providse a server that can interact with luminave over WebSockets to control USB DMX512 controllers",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "npm-run-all --parallel watch:server watch:build",
+    "watch:build": "webpack --watch",
+    "watch:server": "nodemon --inspect=\"9229\" \"./build/bundle.js\" --watch \"./build\" ",
+    "test": "jest",
+    "prepare": "ln -s ../node_modules/@serialport/bindings/build/Release/ build/Release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NERDDISCO/luminave-fivetwelve.git"
+  },
+  "keywords": [
+    "luminave",
+    "dmx512",
+    "fivetwelve"
+  ],
+  "author": "Tim Pietrusky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NERDDISCO/luminave-fivetwelve/issues"
+  },
+  "homepage": "https://github.com/NERDDISCO/luminave-fivetwelve#readme",
+  "dependencies": {
+    "fivetwelve": "^1.0.0-alpha.1",
+    "fivetwelve-bridge": "^1.0.1",
+    "fivetwelve-cli-debug-driver": "^0.2.0",
+    "fivetwelve-driver-usbpro": "github:beyondscreen/fivetwelve-driver-usbpro",
+    "serialport": "^7.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "babel-loader": "^8.0.4",
+    "babel-preset-latest-node": "^2.0.0-beta.3",
+    "node-hot-loader": "^1.12.2",
+    "nodemon": "^1.18.7",
+    "npm-run-all": "^4.1.5",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
