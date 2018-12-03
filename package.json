@@ -1,7 +1,7 @@
 {
   "name": "luminave-fivetwelve",
   "version": "0.0.1",
-  "description": "Providse a server that can interact with luminave over WebSockets to control USB DMX512 controllers",
+  "description": "Provides a server that can interact with luminave over WebSockets to control USB DMX512 controllers",
   "main": "src/index.js",
   "scripts": {
     "build": "webpack",
