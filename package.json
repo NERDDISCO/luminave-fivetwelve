@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/NERDDISCO/luminave-fivetwelve#readme",
   "dependencies": {
+    "dotenv": "^8.0.0",
     "fivetwelve": "^1.0.0-alpha.1",
     "fivetwelve-bridge": "^1.0.1",
     "fivetwelve-cli-debug-driver": "^0.2.0",

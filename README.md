@@ -1,6 +1,46 @@
 # luminave-fivetwelve
 Provides a server that can interact with luminave over WebSockets to control USB DMX512 controllers
 
+---
+
+## Table of Contents
+
+<!-- toc -->
+
+- [luminave-fivetwelve](#luminave-fivetwelve)
+  - [Table of Contents](#table-of-contents)
+  - [Setup](#setup)
+  - [Config](#config)
+    - [Example .env](#example-env)
+  - [ToDo](#todo)
+
+<!-- tocstop -->
+
+---
+
+## Setup
+
+* Clone [this repository](https://github.com/NERDDISCO/luminave-fivetwelve)
+* Install the dev dependencies by executing `npm install` inside the *luminave-fivetwelve* folder
+
+---
+
+## Config
+
+If you want to change the `host` & `port` of *luminave-fivetwelve*, you have to create a `.env` file inside the *luminave-fivetwelve* folder. 
+
+### Example .env
+
+```bash
+# Host of the luminave-fivetwelve
+HOST=localhost
+
+# Port of the luminave-fivetwelve
+PORT=1234
+```
+
+---
+
 
 ## ToDo
 
