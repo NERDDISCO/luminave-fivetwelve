@@ -25,17 +25,17 @@ SerialPort.list().then(
         // Find enttec
         if (manufacturer.test(port.manufacturer)) {
 
-          console.log(`Found enttec DMX USB Pro`)
+          console.log('Found enttec DMX USB Pro')
 
           // Use the port to find the correct controller automatcially
           const usbproSerialport = new SerialPort(port.comName)
 
           const output = new DmxOutput(new EnttecUsbProMk2Driver(usbproSerialport), 1)
-          output.start(1000/30)
+          output.start(1000 / 30)
 
           bridge.setOutput(output)
 
-          console.log(`Set enttec DMX USB Pro as the output for fivetwelve`)
+          console.log('Set enttec DMX USB Pro as the output for fivetwelve')
         }
       }
     })
