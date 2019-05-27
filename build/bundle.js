@@ -16711,8 +16711,15 @@ var _EnttecUsbProMk2Driver = _interopRequireDefault(__webpack_require__(/*! five
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const manufacturer = new RegExp('enttec', 'i');
-const fivetwelveBridgePort = 1234; // Find all connected USB devices
+// TODO: Use the vendorId instead
+const manufacturer = new RegExp('enttec', 'i'); // TODO: Make this configurable from the outside
+
+const fivetwelveBridgePort = 1234; // Create the fivetwelve bridge
+
+const bridge = (0, _fivetwelveBridge.initFivetwelveBridge)();
+bridge.listen(fivetwelveBridgePort, 'localhost', () => {
+  console.log(`fivetwelve-bridge is listening on localhost:${fivetwelveBridgePort}`);
+}); // Find all connected USB devices
 
 _serialport.default.list().then(ports => {
   ports.forEach(port => {
@@ -16730,20 +16737,7 @@ _serialport.default.list().then(ports => {
       }
     }
   });
-}, err => console.error(err)); // create a dummy-driver that doesn't do anything
-// const driver = {
-//   send(dmxBuffer) { 
-//     // console.log(dmxBuffer)
-//     return Promise.resolve(); 
-//   }
-// }
-// Create fivetwelve bridge
-
-
-const bridge = (0, _fivetwelveBridge.initFivetwelveBridge)();
-bridge.listen(fivetwelveBridgePort, 'localhost', () => {
-  console.log(`fivetwelve-bridge is listening on localhost:${fivetwelveBridgePort}`);
-});
+}, err => console.error(err));
 
 /***/ }),
 
