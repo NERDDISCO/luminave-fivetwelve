@@ -12,7 +12,7 @@ const { host, port } = config
 // Create the fivetwelve bridge
 const bridge = initFivetwelveBridge()
 bridge.listen(port, host, () => {
-  console.log(`fivetwelve-bridge is listening on ${host}:${port}`)
+  console.log(`luminave-fivetwelve is listening on ${host}:${port}`)
 })
 
 // Find all connected USB devices
