@@ -11,7 +11,7 @@ module.exports = {
         filename: 'bundle.js',
         publicPath: 'build/'
     },
-    mode: "development",
+    mode: "production",
     optimization: {
       // We no not want to minimize our code.
       minimize: false

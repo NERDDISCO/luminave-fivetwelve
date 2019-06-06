@@ -4,12 +4,12 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const config = {
-  env: process.env.NODE_ENV || 'development',
+  env: process.env.NODE_ENV || 'production',
 
   // Host of luminave-fivetwelve
-  hostLuminaveServer: process.env.HOST || 'localhost',
+  host: process.env.HOST || 'localhost',
   // Port of luminave-fivetwelve
-  portLuminaveServer: parseInt(process.env.PORT) || 1234
+  port: parseInt(process.env.PORT) || 1234
 }
 
 // When in debug mode there will be more log messages
