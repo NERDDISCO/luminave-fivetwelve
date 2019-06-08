@@ -8,7 +8,7 @@ import config from './config.js'
 // @TODO: Use the vendorId instead
 const manufacturer = new RegExp('enttec', 'i')
 
-const { host, port, debugMode } = config
+const { host, port, usbDevicePort, debugMode } = config
 
 // Create the fivetwelve bridge
 const bridge = initFivetwelveBridge()
@@ -28,33 +28,51 @@ if (debugMode) {
 
   // bridge.setOutput(output)
 
-// Use the actual DMX controller connected via USB
+  // Use the actual DMX controller connected via USB
 } else {
   // Find all connected USB devices
-  SerialPort.list().then(
-    ports => {
-      ports.forEach(usbPort => {
-        if (usbPort.comName.includes('usb')) {
-          console.log(usbPort)
+  Promise.resolve().then(() => {
+    if (usbDevicePort) {
+      console.log('Using device port from config.')
+      
+      return usbDevicePort
+    }
+    
+    return SerialPort.list().then(ports => {
+        return ports.find(usbPort => {
+          if (usbPort.comName.includes('usb')) {
+            console.log(usbPort)
 
-          // Find enttec
-          if (manufacturer.test(usbPort.manufacturer)) {
+            // Find enttec
+            if (manufacturer.test(usbPort.manufacturer)) {
+              console.log('Found enttec DMX USB Pro')
 
-            console.log('Found enttec DMX USB Pro')
-
-            // Use the port to find the correct controller automatcially
-            const usbproSerialport = new SerialPort(usbPort.comName)
-
-            const output = new DmxOutput(new EnttecUsbProMk2Driver(usbproSerialport), 1)
-            output.start(1000 / 30)
-
-            bridge.setOutput(output)
-
-            console.log('Set enttec DMX USB Pro as the output for fivetwelve')
+              return usbPort.comName
+            }
           }
-        }
+
+          return false
+        })
       })
-    },
-    err => console.error(err)
-  )
+  })
+  .then(usbPort => {
+      if (!usbPort) {
+        console.error('No valid USB device found.')
+
+        return
+      }
+      // Use the port to find the correct controller automatcially
+      const usbproSerialport = new SerialPort(usbPort)
+
+      const output = new DmxOutput(
+        new EnttecUsbProMk2Driver(usbproSerialport),
+        1
+      )
+      output.start(1000 / 30)
+
+      bridge.setOutput(output)
+
+      console.log('Set enttec DMX USB Pro as the output for fivetwelve')
+  })
+  .catch(err => console.error(err))
 }
