@@ -36,6 +36,7 @@
     "fivetwelve": "^1.0.0-alpha.1",
     "fivetwelve-bridge": "^1.0.1",
     "fivetwelve-cli-debug-driver": "^0.2.0",
+    "fivetwelve-driver-artnet": "0.0.1",
     "fivetwelve-driver-usbpro": "github:beyondscreen/fivetwelve-driver-usbpro",
     "serialport": "^7.1.0"
   },
