@@ -31,10 +31,10 @@ if (debugMode) {
   
   // Use the actual DMX controller connected via USB
 } else {
-  // Find all connected USB devices
   Promise.resolve()
     .then(() => {
       if (config.artNetDeviceAddress) {
+        console.log(`Set ArtNet ${config.artNetDeviceAddress} as the output for fivetwelve`)
         return Promise.resolve().then(() => new ArtNetDriver(config.artNetDeviceAddress))
       }
 
@@ -45,7 +45,8 @@ if (debugMode) {
 
             return usbDevicePort
           }
-
+        
+          // Find all connected USB devices
           return SerialPort.list().then(ports => ports.find(usbPort => {
               if (usbPort.comName.includes('usb')) {
                 console.log(usbPort)
@@ -69,6 +70,7 @@ if (debugMode) {
           }
           // Use the port to find the correct controller automatcially
           const usbproSerialport = new SerialPort(usbPort)
+          console.log('Set enttec DMX USB Pro as the output for fivetwelve')
 
           return new EnttecUsbProMk2Driver(usbproSerialport)
         })
@@ -84,7 +86,6 @@ if (debugMode) {
 
       bridge.setOutput(output)
 
-      console.log('Set enttec DMX USB Pro as the output for fivetwelve')
     })
     .catch(err => console.error(err))
 }
