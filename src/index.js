@@ -3,6 +3,7 @@ import { DmxOutput } from 'fivetwelve'
 import { initFivetwelveBridge } from 'fivetwelve-bridge'
 import SerialPort from 'serialport'
 import EnttecUsbProMk2Driver from 'fivetwelve-driver-usbpro/lib/EnttecUsbProMk2Driver'
+import ArtNetDriver from 'fivetwelve-driver-artnet/lib'
 import config from './config.js'
 
 // @TODO: Use the vendorId instead
@@ -27,52 +28,64 @@ if (debugMode) {
   // output.start(1000 / 30)
 
   // bridge.setOutput(output)
-
+  
   // Use the actual DMX controller connected via USB
 } else {
-  // Find all connected USB devices
-  Promise.resolve().then(() => {
-    if (usbDevicePort) {
-      console.log('Using device port from config.')
-      
-      return usbDevicePort
-    }
-    
-    return SerialPort.list().then(ports => {
-        return ports.find(usbPort => {
-          if (usbPort.comName.includes('usb')) {
-            console.log(usbPort)
+  Promise.resolve()
+    .then(() => {
+      if (config.artNetDeviceAddress) {
+        console.log(`Set ArtNet ${config.artNetDeviceAddress} as the output for fivetwelve`)
+        return Promise.resolve().then(() => new ArtNetDriver(config.artNetDeviceAddress))
+      }
 
-            // Find enttec
-            if (manufacturer.test(usbPort.manufacturer)) {
-              console.log('Found enttec DMX USB Pro')
+      return Promise.resolve()
+        .then(() => {
+          if (usbDevicePort) {
+            console.log('Using device port from config.')
 
-              return usbPort.comName
-            }
+            return usbDevicePort
           }
+        
+          // Find all connected USB devices
+          return SerialPort.list().then(ports => ports.find(usbPort => {
+              if (usbPort.comName.includes('usb')) {
+                console.log(usbPort)
 
-          return false
+                // Find enttec
+                if (manufacturer.test(usbPort.manufacturer)) {
+                  console.log('Found enttec DMX USB Pro')
+
+                  return usbPort.comName
+                }
+              }
+
+              return false
+            }))
         })
-      })
-  })
-  .then(usbPort => {
-      if (!usbPort) {
-        console.error('No valid USB device found.')
+        .then(usbPort => {
+          if (!usbPort) {
+            console.error('No valid USB device found.')
+
+            return false
+          }
+          // Use the port to find the correct controller automatcially
+          const usbproSerialport = new SerialPort(usbPort)
+          console.log('Set enttec DMX USB Pro as the output for fivetwelve')
+
+          return new EnttecUsbProMk2Driver(usbproSerialport)
+        })
+    })
+    .then(driver => {
+      if (!driver) {
+        console.error('No driver was created.')
 
         return
       }
-      // Use the port to find the correct controller automatcially
-      const usbproSerialport = new SerialPort(usbPort)
-
-      const output = new DmxOutput(
-        new EnttecUsbProMk2Driver(usbproSerialport),
-        1
-      )
+      const output = new DmxOutput(driver, 1)
       output.start(1000 / 30)
 
       bridge.setOutput(output)
 
-      console.log('Set enttec DMX USB Pro as the output for fivetwelve')
-  })
-  .catch(err => console.error(err))
+    })
+    .catch(err => console.error(err))
 }

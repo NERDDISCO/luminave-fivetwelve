@@ -11,7 +11,9 @@ const config = {
   // Port of luminave-fivetwelve
   port: parseInt(process.env.PORT) || 1234,
   // USB device pathname eg. /dev/cu.usbserial-A7XSB63S
-  usbDevicePort: process.env.USB_DMX_PORT
+  usbDevicePort: process.env.USB_DMX_PORT,
+  // ArtNet Device IP Address
+  artNetDeviceAddress: process.env.ARTNET_DMX_ADDRESS
 }
 
 // When in debug mode there will be more log messages
