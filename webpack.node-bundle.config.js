@@ -20,7 +20,6 @@ module.exports = {
     rules: [
       {
         use: 'babel-loader',
-        exclude: /node_modules\/(?!fivetwelve.*)/,
         test: /\.js$/
       }
     ]
