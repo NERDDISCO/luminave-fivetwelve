@@ -9,7 +9,7 @@
     "watch:build": "webpack --config webpack.node.config.js --watch",
     "watch:server": "nodemon --inspect=\"9229\" \"./build/bundle.js\" --watch \"./build\" ",
     "test": "jest",
-    "prepare": "ln -s ../node_modules/@serialport/bindings/build/Release/ build/Release",
+    "prepare": "ln -sf ../node_modules/@serialport/bindings/build/Release/ build/Release",
     "clean": "rimraf umd docs/*.js docs/*.map",
     "jsdoc": "jsdoc2md --heading-depth 2 --partial .github/scope.hbs --template .github/API_template.md --files example.js > docs/API.md",
     "toc": "markdown-toc -i README.md",
