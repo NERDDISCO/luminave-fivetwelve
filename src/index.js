@@ -68,11 +68,15 @@ if (debugMode) {
 
             return false
           }
+
           // Use the port to find the correct controller automatcially
-          const usbproSerialport = new SerialPort(usbPort)
+          const usbproSerialport = new SerialPort(usbPort.comName)
           console.log('Set enttec DMX USB Pro as the output for fivetwelve')
 
           return new EnttecUsbProMk2Driver(usbproSerialport)
+        })
+        .catch(error => {
+          console.error('There was a problem connecting to the USB controller:', error)
         })
     })
     .then(driver => {
